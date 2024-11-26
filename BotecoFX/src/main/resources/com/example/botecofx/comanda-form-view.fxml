@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="746.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.botecofx.ComandaFormController">
+   <children>
+      <HBox alignment="CENTER_RIGHT" prefHeight="33.0" prefWidth="800.0" spacing="20.0" style="-fx-background-color: gray;">
+         <children>
+            <Button mnemonicParsing="false" onAction="#onImprimir" text="Imprimir" />
+            <Button mnemonicParsing="false" onAction="#onCofirmar" text="Confirmar" />
+            <Button layoutX="618.0" layoutY="14.0" mnemonicParsing="false" onAction="#onCancelar" text="Cancelar" />
+            <Button mnemonicParsing="false" onAction="#onFechar" style="-fx-background-color: red;" text="X" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+         <padding>
+            <Insets right="5.0" />
+         </padding></HBox>
+      <AnchorPane prefHeight="261.0" prefWidth="800.0" style="-fx-background-color: darkgray;">
+         <children>
+            <Label layoutX="27.0" text="Numero *">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="tfNumero" layoutX="27.0" layoutY="20.0" />
+            <Label layoutX="208.0" text="Data *">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <DatePicker fx:id="dpData" layoutX="208.0" layoutY="20.0" />
+            <Label layoutX="29.0" layoutY="119.0" text="Breve Descrição">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <TextArea fx:id="taDesc" layoutX="29.0" layoutY="145.0" prefHeight="86.0" prefWidth="708.0" />
+            <Label layoutX="28.0" layoutY="60.0" text="Garçom *">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="cbGarcom" layoutX="28.0" layoutY="80.0" prefHeight="26.0" prefWidth="267.0" />
+            <Label layoutX="610.0" layoutY="238.0" text="Informações obrigatórias *">
+               <font>
+                  <Font name="System Bold" size="10.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="54.0" prefWidth="800.0" spacing="32.0" style="-fx-background-color: lightblue;">
+         <children>
+            <Button fx:id="btProdutos" mnemonicParsing="false" onAction="#onSelProd" prefHeight="26.0" prefWidth="538.0" style="-fx-background-color: white;" text="Selecione um Produto" />
+            <Spinner fx:id="spQtd" prefHeight="27.0" prefWidth="122.0" />
+            <Button fx:id="btAdd" mnemonicParsing="false" onAction="#onAddProd" style="-fx-background-color: lightgreen;" text="+">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <TableView fx:id="tabela" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: lightyellow;">
+        <columns>
+          <TableColumn fx:id="colProduto" prefWidth="75.0" text="Produto" />
+          <TableColumn fx:id="colQuantidade" maxWidth="75.0" prefWidth="75.0" text="Quantidade" />
+            <TableColumn fx:id="colValor" maxWidth="120.0" prefWidth="120.0" text="Valor" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <VBox style="-fx-background-color: #5DDE7B;">
+         <children>
+            <HBox alignment="CENTER" prefHeight="106.0" prefWidth="800.0" spacing="50.0">
+               <children>
+                  <Button fx:id="btPagar" mnemonicParsing="false" onAction="#onPagar" text="Pagar" />
+                  <Button fx:id="btFinalizar" mnemonicParsing="false" onAction="#onFinishComanda" text="Finalizar Comanda" />
+                  <ComboBox fx:id="cbTipoPagamento" prefHeight="26.0" prefWidth="290.0" />
+                  <Label fx:id="lbValor" text="R$ 0,00" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="40.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="80.0">
+               <children>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Label text="Valor Pago: R$  ">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbValorPago">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Label text="Valor Total: R$ ">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbValorTotal">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</VBox>
