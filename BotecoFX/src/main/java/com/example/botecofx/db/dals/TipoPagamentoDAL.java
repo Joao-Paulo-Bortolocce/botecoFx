@@ -55,7 +55,7 @@ public class TipoPagamentoDAL implements IDAL<TipoPagamento> {
         List<TipoPagamento> lista= new ArrayList<>();
         String sql="SELECT * FROM tipopgto";
         if(!filtro.isEmpty())
-            sql+=" WHERE "+filtro;
+            sql+=" WHERE tpg_nome LIKE '%"+filtro+"%'";
         sql+=" ORDER BY tpg_nome";
         ResultSet resultSet=SingletonDB.getConexao().consultar(sql);
         try{

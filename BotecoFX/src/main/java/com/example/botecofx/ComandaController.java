@@ -52,9 +52,10 @@ public class ComandaController implements Initializable {
         stage.setScene(scene);
         stage.showAndWait();
         nova=false;
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("comanda-painel-view.fxml"));
-//        Parent root = loader.load();
-//        ComandaPainelController controller = loader.getController();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("comanda-painel-view.fxml"));
+        Parent root = loader.load();
+        ComandaPainelController controller = loader.getController();
+        controller.carregarComandas();
         numgeral=id;
         this.initialize(null,null);
 

@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="30.0" style="-fx-background-color: #AEDEA7;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.botecofx.PagamentoFormView">
    <children>
       <Label fx:id="lbValorRestante" text="Label">
@@ -20,7 +19,7 @@
             <Font name="System Bold" size="26.0" />
          </font>
       </Label>
-      <TextField alignment="CENTER" maxWidth="400.0" prefWidth="200.0" promptText="Informe a quantia">
+      <TextField fx:id="tfValor" alignment="CENTER" maxWidth="400.0" prefWidth="200.0" promptText="Informe a quantia">
          <font>
             <Font size="16.0" />
          </font>

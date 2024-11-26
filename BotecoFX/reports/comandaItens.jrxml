@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.3.final using JasperReports Library version 6.21.3-4a3078d20785ebe464f18037d738d12fc98c13cf  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="comandaItens" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="488fdee0-1d9b-47dd-9bca-e83c65f3bcb9">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter"/>
+	<parameter name="id_comanda" class="java.lang.Integer"/>
+	<queryString language="SQL">
+		<![CDATA[select * from item,produto where
+item.prod_id=produto.prod_id
+and item.com_id= $P{id_comanda} ;]]>
+	</queryString>
+	<field name="com_id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="com_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="com_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="item"/>
+	</field>
+	<field name="prod_nome" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="prod_nome"/>
+		<property name="com.jaspersoft.studio.field.label" value="prod_nome"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="produto"/>
+	</field>
+	<field name="prod_preco" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="prod_preco"/>
+		<property name="com.jaspersoft.studio.field.label" value="prod_preco"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="produto"/>
+	</field>
+	<field name="it_quantidade" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="it_quantidade"/>
+		<property name="com.jaspersoft.studio.field.label" value="it_quantidade"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="item"/>
+	</field>
+	<field name="it_valor" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="it_valor"/>
+		<property name="com.jaspersoft.studio.field.label" value="it_valor"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="item"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<textField>
+				<reportElement x="30" y="14" width="100" height="30" uuid="cdcd9164-1c2a-4873-be38-cb90839ba863"/>
+				<textFieldExpression><![CDATA[$F{prod_nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="14" width="100" height="30" uuid="0d0f8e4d-0645-4eef-9651-3a9f12e4b1c9"/>
+				<textFieldExpression><![CDATA[$F{prod_preco}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="270" y="14" width="100" height="30" uuid="92fd2a6a-b02b-4f0f-b356-a31056ee33e4"/>
+				<textFieldExpression><![CDATA[$F{it_quantidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="390" y="14" width="100" height="30" uuid="0f8d0bda-08ba-41b8-9d64-b0ba66a1f1ab"/>
+				<textFieldExpression><![CDATA[$F{it_valor}.doubleValue()* $F{it_quantidade}.doubleValue()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+</jasperReport>

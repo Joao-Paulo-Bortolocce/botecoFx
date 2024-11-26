@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.3.final using JasperReports Library version 6.21.3-4a3078d20785ebe464f18037d738d12fc98c13cf  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="comandaPrint" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ec5ecc61-0f53-47a3-b1d2-70ca03084810">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter"/>
+	<parameter name="comanda_id" class="java.lang.Integer"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT * FROM comanda,garcon
+WHERE comanda.gar_id=garcon.gar_id AND
+com_id= $P{comanda_id} ;]]>
+	</queryString>
+	<field name="com_id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="com_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="com_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="comanda"/>
+	</field>
+	<field name="com_numero" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="com_numero"/>
+		<property name="com.jaspersoft.studio.field.label" value="com_numero"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="comanda"/>
+	</field>
+	<field name="com_data" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="com_data"/>
+		<property name="com.jaspersoft.studio.field.label" value="com_data"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="comanda"/>
+	</field>
+	<field name="com_valor" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="com_valor"/>
+		<property name="com.jaspersoft.studio.field.label" value="com_valor"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="comanda"/>
+	</field>
+	<field name="com_status" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="com_status"/>
+		<property name="com.jaspersoft.studio.field.label" value="com_status"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="comanda"/>
+	</field>
+	<field name="gar_nome" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="gar_nome"/>
+		<property name="com.jaspersoft.studio.field.label" value="gar_nome"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="garcon"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="330" splitType="Stretch">
+			<textField>
+				<reportElement x="160" y="20" width="100" height="30" uuid="b325f7d9-fca3-4536-b7ca-2c5af90f303e"/>
+				<textElement>
+					<font size="22"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{com_numero}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="400" y="60" width="100" height="30" uuid="ce7ab265-b9e6-4486-a4be-69d494774f97"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Data:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="397" y="17" width="100" height="30" uuid="94587df2-d2cf-4701-8f8d-4e1a83c8387c"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Garçom:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="60" width="100" height="30" uuid="47143a38-5da1-4bef-8f75-44783287f3af"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[ID:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="20" width="140" height="30" uuid="13d11e7c-e971-43cb-8cb5-99a1f29d4e8b"/>
+				<textElement>
+					<font size="22"/>
+				</textElement>
+				<text><![CDATA[Comanda Nº]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="40" y="60" width="100" height="30" uuid="0457a561-c439-46fd-8873-128384ba3a35"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{com_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="460" y="17" width="100" height="30" uuid="8782548d-ddbf-4ca5-aeaf-4a35a88da6ef"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gar_nome}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/YYYY">
+				<reportElement x="460" y="60" width="100" height="30" uuid="8e48d19a-97e1-4c61-93c6-f0f3e16295d5"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{com_data}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="20" y="110" width="510" height="220" uuid="0ccba346-853b-43e6-aaf1-8bd22d9d422a"/>
+				<subreportParameter name="id_comanda">
+					<subreportParameterExpression><![CDATA[$F{com_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["comandaItens.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</title>
+	<pageFooter>
+		<band height="93" splitType="Stretch">
+			<staticText>
+				<reportElement x="380" y="44" width="100" height="30" uuid="74328d36-34d0-4ad8-b615-9f1a025ff4a2"/>
+				<textElement>
+					<font size="22"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="440" y="44" width="100" height="30" uuid="5ec31071-e70a-4d95-895d-214eaf88020f"/>
+				<textElement>
+					<font size="22"/>
+				</textElement>
+				<textFieldExpression><![CDATA["R$ " + $F{com_valor}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -2,6 +2,7 @@ package com.example.botecofx.db.dals;
 
 import com.example.botecofx.db.entidades.Comanda;
 import com.example.botecofx.db.entidades.Garcon;
+import com.example.botecofx.db.entidades.Pagamento;
 import com.example.botecofx.db.util.IDAL;
 import com.example.botecofx.db.util.SingletonDB;
 
@@ -87,6 +88,20 @@ public class ComandaDAL implements IDAL<Comanda> {
                     if(!SingletonDB.getConexao().manipular(sql))
                         erro=true;
                 }
+                if(!erro && comanda.getPagamentos().size()>0 && !SingletonDB.getConexao().manipular("DELETE FROM pagamento WHERE com_id="+entidade.getId()))
+                    erro=true;
+                for(Pagamento pag: entidade.getPagamentos()){
+                    sql= """
+                            INSERT INTO pagamento(
+                                com_id, pag_valor, tpg_id)
+                                VALUES (#1,#2, #3);
+                            """;
+                    sql=sql.replace("#1",""+entidade.getId());
+                    sql=sql.replace("#2",""+pag.getValor());
+                    sql=sql.replace("#3",""+pag.getTipoPagamento().getId());
+                    if(!SingletonDB.getConexao().manipular(sql))
+                        erro=true;
+                }
             }
             else
                 erro=true;
@@ -106,7 +121,7 @@ public class ComandaDAL implements IDAL<Comanda> {
     @Override
     public boolean apagar(Comanda entidade) {
         boolean ok =false;
-        if(SingletonDB.getConexao().manipular("DELETE FROM item WHERE com_id = "+entidade.getId())){
+        if(SingletonDB.getConexao().manipular("DELETE FROM item WHERE com_id = "+entidade.getId()) && SingletonDB.getConexao().manipular("DELETE FROM pagamento WHERE com_id = "+entidade.getId())){
             SingletonDB.getConexao().manipular("DELETE FROM comanda WHERE com_id = "+entidade.getId());
             ok=true;
         }
@@ -126,6 +141,12 @@ public class ComandaDAL implements IDAL<Comanda> {
                 while (rs2.next()){
                     Comanda.Item item= new Comanda.Item(new ProdutoDAL().get(rs2.getInt("prod_id")),rs2.getInt("it_quantidade"),rs2.getDouble("it_valor"));
                     comanda.addItem(item);
+                }
+                sql="SELECT * FROM pagamento WHERE com_id="+id;
+                ResultSet rs3 = SingletonDB.getConexao().consultar(sql);
+                while (rs3.next()){
+                    Pagamento pagamento= new Pagamento((rs3.getInt("pag_id")),rs3.getDouble("pag_valor"),new TipoPagamentoDAL().get(rs3.getInt("tpg_id")));
+                    comanda.addPagamento(pagamento.getTipoPagamento(), pagamento.getValor());
                 }
             }
         }catch (Exception e){
@@ -151,6 +172,12 @@ public class ComandaDAL implements IDAL<Comanda> {
                 while (rs2.next()){
                     Comanda.Item item= new Comanda.Item(new ProdutoDAL().get(rs2.getInt("prod_id")),rs2.getInt("it_quantidade"),rs2.getDouble("it_valor"));
                     comanda.addItem(item);
+                }
+                sql="SELECT * FROM pagamento WHERE com_id="+comanda.getId();
+                ResultSet rs3 = SingletonDB.getConexao().consultar(sql);
+                while (rs3.next()){
+                    Pagamento pagamento= new Pagamento((rs3.getInt("pag_id")),rs3.getDouble("pag_valor"),new TipoPagamentoDAL().get(rs3.getInt("tpg_id")));
+                    comanda.addPagamento(pagamento.getTipoPagamento(), pagamento.getValor());
                 }
                 comandas.add(comanda);
             }

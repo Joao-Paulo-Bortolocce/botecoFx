@@ -4,10 +4,12 @@ import com.example.botecofx.db.dals.*;
 import com.example.botecofx.db.entidades.*;
 import com.example.botecofx.db.util.SingletonDB;
 import com.example.botecofx.util.ModalTable;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -20,6 +22,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
@@ -69,6 +72,7 @@ public class ComandaFormController implements Initializable {
     private boolean isAberta=true;
     Comanda comanda;
     double valor;
+    public static double restante;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -144,6 +148,7 @@ public class ComandaFormController implements Initializable {
                 valorPago+=pag.getValor();
         }
         valor=valorTotal-valorPago;
+        restante=valor;
 
         tabela.setItems(FXCollections.observableArrayList(itens));
         lbValor.setText("R$ "+valor);
@@ -188,16 +193,23 @@ public class ComandaFormController implements Initializable {
     }
 
     @FXML
-    void onFinishComanda(ActionEvent event) {
-        comanda.setStatus('F');
-        onCofirmar(null);
+    void onFinishComanda(ActionEvent event) throws IOException {
+        onPagar(null);
+        Alert alert= new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText("Deseja realmente fechar a comanda?");
+        if(alert.showAndWait().get()== ButtonType.OK){
+            comanda.setValor(0);
+            comanda.setStatus('F');
+            onCofirmar(null);
+        }
+
     }
 
     @FXML
     void onImprimir(ActionEvent event) {
         HashMap hashMap = new HashMap();
         hashMap.put("comanda_id",ComandaController.comanda.getId());
-        gerarRelatorioSubReport("reports/comandaPrint.jasper","Comanda",hashMap);
+        gerarRelatorioSubReport("reports/comanda_print.jasper","Comanda",hashMap);
     }
 
     @FXML
@@ -239,7 +251,29 @@ public class ComandaFormController implements Initializable {
         }
     }
 
-    public void onPagar(ActionEvent actionEvent) {
+    public void onPagar(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(BotecoFX.class.getResource("pagamento-form-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = new Stage();
+        stage.setTitle("BotecoFX");
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.UNDECORATED);
 
+        stage.setScene(scene);
+        stage.showAndWait();
+        if(PagamentoFormView.valor>0){
+            Object pagAux= cbTipoPagamento.getValue();
+            String aux = pagAux.toString();
+            List<TipoPagamento> tipoPagamentoList= new TipoPagamentoDAL().get(aux);
+
+            if (tipoPagamentoList.size()>0){
+                comanda.addPagamento(tipoPagamentoList.get(0),PagamentoFormView.valor);
+                preencherTabela();
+            }
+            else{
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Voce nao selecionou a forma de pagamento");
+            }
+        }
     }
 }
